@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>CAM APP - Cámara intuitiva para adultos mayores</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+    :root {
+      --soft-bg: #E5F9F8;   /* fondo suave */
+      --dark: #1F2B2D;      /* texto principal */
+      --teal: #23717B;      /* acentos */
+      --cyan: #0D8A9E;      /* botones primarios */
+      --bright: #12B2C1;    /* hover/acento */
+    }
+
+    * { box-sizing: border-box; }
+
+    body { 
+      font-family: 'Segoe UI', Arial, sans-serif; 
+      margin: 0; 
+      background: var(--soft-bg); 
+      color: var(--dark); 
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    /* Barra de navegación */
+    nav { 
+      background: var(--teal); 
+      color: #fff; 
+      padding: 16px 4%; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2); 
+      width: 100%;
+    }
+    nav .logo { font-weight: bold; font-size: 22px; letter-spacing: 1px; display: flex; align-items: center; gap: 10px; }
+    nav .logo img { height: 40px; width: auto; object-fit: contain; }
+    nav a { color: #fff; text-decoration: none; margin: 0 15px; font-weight: 500; transition: 0.3s; }
+    nav a:hover { color: var(--bright); }
+
+    /* Estructura dividida en dos columnas */
+    main { 
+      width: 100%; 
+      max-width: 100%; 
+      padding: 30px 4%; 
+      flex: 1;
+      display: flex;
+      gap: 40px;
+      align-items: flex-start;
+    }
+
+    /* COLUMNA IZQUIERDA: El Carrusel de Celular */
+    .col-izquierda {
+      flex: 0 0 380px; 
+      position: sticky;
+      top: 20px;
+    }
+
+    /* COLUMNA DERECHA: Datos */
+    .col-derecha {
+      flex: 1; 
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    h2 { margin-top: 0; color: var(--cyan); text-align: center; margin-bottom: 20px; }
+
+    /* Caja del Carrusel con diseño de interfaz móvil */
+    .carrusel { 
+      background: #fff; 
+      border-radius: 16px; 
+      box-shadow: 0 6px 12px rgba(0,0,0,0.11); 
+      padding: 25px 20px; 
+      text-align: center; 
+      width: 100%; 
+    }
+    .carrusel p { color: var(--teal); font-weight: 500; margin-bottom: 20px; font-size: 0.95rem; }
+
+    /* Contenedor relativo para posicionar los elementos del celular */
+    .carrusel-wrapper {
+      position: relative;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    /* Contenedor de la Imagen (720x1600) */
+    .carrusel-slider {
+      position: relative;
+      aspect-ratio: 720 / 1600; 
+      width: 100%;
+      background: #000;
+      border-radius: 24px; 
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    }
+
+    .imagen-slide {
+      display: none;
+      width: 100%;
+      height: 100%;
+    }
+    .imagen-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; 
+    }
+
+    /* Botones de navegación laterales (Flechas) */
+    .prev-btn, .next-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.4);
+      color: white;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: bold;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: 0.3s;
+      z-index: 10;
+    }
+    .prev-btn { left: -15px; }
+    .next-btn { right: -15px; }
+    .prev-btn:hover, .next-btn:hover { background: var(--cyan); }
+
+    /* Puntos Indicadores Inferiores */
+    .dots-container {
+      margin-top: 15px;
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+    }
+    .dot {
+      width: 10px;
+      height: 10px;
+      background-color: #ccc;
+      border-radius: 50%;
+      display: inline-block;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .dot.active {
+      background-color: var(--cyan);
+      transform: scale(1.2);
+    }
+
+    /* Grid de tarjetas derecha */
+    .grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); 
+      gap: 25px; 
+      width: 100%;
+    }
+    .card { background: #fff; padding: 25px; border-radius: 16px; box-shadow: 0 6px 12px rgba(0,0,0,0.11); text-align: center; transition: transform 0.3s; }
+    .card:hover { transform: translateY(-5px); }
+
+    /* Secciones generales de la derecha (Comentarios, Contacto, Ubicación) */
+    .seccion-blanca { 
+      background: #fff; 
+      border-radius: 16px; 
+      box-shadow: 0 6px 12px rgba(0,0,0,0.11); 
+      padding: 30px; 
+      width: 100%; 
+    }
+    
+    .comentario { background: var(--soft-bg); padding: 16px; border-radius: 10px; margin: 15px 0; font-style: italic; color: var(--dark); text-align: left; }
+
+    /* Formulario de contacto */
+    .form-contacto {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .form-contacto input, .form-contacto textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 14px;
+    }
+    .form-contacto textarea { resize: vertical; min-height: 100px; }
+
+    /* Diseño para los datos de ubicación escritos */
+    .datos-ubicacion {
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .datos-ubicacion p {
+      font-size: 16px;
+      line-height: 1.6;
+      margin: 8px 0;
+    }
+    .datos-ubicacion .direccion-principal {
+      font-size: 18px;
+      font-weight: bold;
+      color: var(--teal);
+    }
+    .datos-ubicacion .detalles-adicionales {
+      color: #666;
+      font-style: italic;
+    }
+
+    .aviso { background: #fff; padding: 40px 20px; border-radius: 16px; text-align: center; box-shadow: 0 6px 12px rgba(0,0,0,0.11); border: 2px dashed var(--cyan); width: 100%; }
+    .btn { display: inline-block; padding: 14px 28px; border-radius: 8px; background: var(--cyan); color: #fff; text-decoration: none; font-weight: bold; transition: 0.3s; border: none; cursor: pointer; }
+    .btn:hover { background: var(--bright); }
+
+    /* Footer */
+    footer { background: var(--teal); color: #fff; text-align: center; padding: 20px; margin-top: auto; box-shadow: 0 -2px 6px rgba(0,0,0,0.2); width: 100%; }
+
+    /* Ajuste para pantallas móviles */
+    @media (max-width: 850px) {
+      main { flex-direction: column; }
+      .col-izquierda { flex: 1 1 auto; width: 100%; max-width: 360px; margin: 0 auto; position: static; }
+    }
+    </style>
+</head>
+<body>
+
+    <nav>
+    <div class="logo">
+        <img src="LOGO-CAMAPP.png" alt="Logo Cam App" />
+        <span></span>
+    </div>
+    <div>
+        <a href="#mision">Misión</a>
+        <a href="#vision">Visión</a>
+        <a href="#objetivo">Objetivo</a>
+        <a href="#carrusel">Galería</a>
+        <a href="#comentarios">Comentarios</a>
+        <a href="#contacto">Contacto</a>
+    </div>
+    </nav>
+
+    <main>
+        <div class="col-izquierda">
+            <section id="carrusel" class="carrusel">
+                <h2>Galería</h2>                
+                <div class="carrusel-wrapper">
+                    <button class="prev-btn" onclick="moverSlide(-1)">❮</button>
+                    <button class="next-btn" onclick="moverSlide(1)">❯</button>
+
+                    <div class="carrusel-slider">
+                        <div class="imagen-slide">
+                            <img src="im1.jpeg" alt="Pantalla 1">
+                        </div>
+                        <div class="imagen-slide">
+                            <img src="im2.jpeg" alt="Pantalla 2">
+                        </div>
+                        <div class="imagen-slide">
+                            <img src="im3.jpeg" alt="Pantalla 3">
+                        </div>
+                        <div class="imagen-slide">
+                            <img src="im4.jpeg" alt="Pantalla 4">
+                        </div>
+                    </div>
+
+                    <div class="dots-container">
+                        <span class="dot" onclick="slideActual(1)"></span>
+                        <span class="dot" onclick="slideActual(2)"></span>
+                        <span class="dot" onclick="slideActual(3)"></span>
+                        <span class="dot" onclick="slideActual(4)"></span>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="col-derecha">
+            <div class="grid">
+                <section id="mision" class="card">
+                <h2>Misión</h2>
+                <p>Facilitar el uso de la cámara para adultos mayores con una interfaz intuitiva y accesible.</p>
+                </section>
+
+                <section id="vision" class="card">
+                <h2>Visión</h2>
+                <p>Convertirnos en la aplicación líder en inclusión digital para fotografía sencilla.</p>
+                </section>
+
+                <section id="objetivo" class="card">
+                <h2>Objetivo</h2>
+                <p>Brindar una herramienta práctica y universal que acerque la tecnología a todos.</p>
+                </section>
+            </div>
+
+            <section id="comentarios" class="seccion-blanca">
+                <h2>Comentarios de usuarios</h2>
+                <div class="comentario">"La cámara es muy fácil de usar, me encanta." – María</div>
+                <div class="comentario">"Por fin puedo tomar fotos sin complicaciones." – José</div>
+                <div class="comentario">"Excelente herramienta para adultos mayores." – Carmen</div>
+            </section>
+
+            <section id="contacto" class="seccion-blanca">
+                <h2>Contacto</h2>
+                <form class="form-contacto">
+                    <input type="text" placeholder="Tu Nombre" required />
+                    <input type="email" placeholder="Tu Correo Electrónico" required />
+                    <textarea placeholder="Escribe tu mensaje aquí..." required></textarea>
+                    <a href="mailto:482500451@alumnos.utzac.edu.mx">Enviar correo</a>   
+                </form>
+            </section>
+
+            <section id="ubicacion" class="seccion-blanca">
+                <h2>Nuestra Ubicación</h2>
+                <div class="datos-ubicacion">
+                    <p class="direccion-principal">Av. Principal No. 123, Colonia Centro</p>
+                    <p>Ciudad de México, CP 01000</p>
+                    <p class="detalles-adicionales">Horario de atención: Lunes a Viernes de 9:00 AM a 6:00 PM</p>
+                </div>
+            </section>
+
+            <section class="aviso">
+                <h2>¿Quieres publicar un comentario?</h2>
+                <p>Debes estar registrado para hacerlo. Si ya tienes cuenta, inicia sesión. Si no, crea una nueva.</p>
+                <a href="login.html" class="btn">Ir a Login / Registro</a>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+    © 2026 Cam App - Todos los derechos reservados
+    </footer>
+
+    <script>
+        let slideIndex = 1;
+        let timer = null;
+        mostrarSlides(slideIndex);
+        iniciarTimer();
+
+        // Control de flechas (Atrás / Adelante)
+        function moverSlide(n) {
+            resetTimer();
+            mostrarSlides(slideIndex += n);
+        }
+
+        // Control de los puntos inferiores
+        function slideActual(n) {
+            resetTimer();
+            mostrarSlides(slideIndex = n);
+        }
+
+        function mostrarSlides(n) {
+            let i;
+            let slides = document.getElementsByClassName("imagen-slide");
+            let dots = document.getElementsByClassName("dot");
+            
+            if (n > slides.length) { slideIndex = 1 }    
+            if (n < 1) { slideIndex = slides.length }
+            
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";  
+            }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            
+            slides[slideIndex-1].style.display = "block";  
+            dots[slideIndex-1].className += " active";
+        }
+
+        // Funciones para automatizar el avance continuo cada 4 segundos
+        function iniciarTimer() {
+            timer = setInterval(function() {
+                mostrarSlides(slideIndex += 1);
+            }, 4000);
+        }
+
+        function resetTimer() {
+            clearInterval(timer);
+            iniciarTimer();
+        }
+    </script>
+
+</body>
+</html>

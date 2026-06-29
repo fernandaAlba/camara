@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Cam App</title>
+  <style>
+    :root {
+      --soft-bg: #E5F9F8;   /* fondo suave */
+      --dark: #1F2B2D;      /* texto principal */
+      --teal: #23717B;      /* acentos */
+      --cyan: #0D8A9E;      /* botones primarios */
+      --bright: #12B2C1;    /* hover/acento */
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: var(--soft-bg);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin:0;
+    }
+
+    .login-box {
+      background: #fff;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+      width: 320px;
+      text-align:center;
+    }
+
+    /* Estilos para el logo centrado */
+    .login-box .logo-space {
+      margin-bottom: 15px;
+    }
+    .login-box .logo-space img {
+      height: 50px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .login-box h2 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      color: var(--cyan);
+    }
+
+    .login-box input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    .login-box button {
+      width: 100%;
+      padding: 12px;
+      background: var(--cyan);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight:bold;
+      transition:0.3s;
+    }
+
+    .login-box button:hover {
+      background: var(--bright);
+    }
+
+    .info {
+      color: var(--dark);
+      font-size: 0.85em;
+      margin-top:6px;
+      margin-bottom: 14px;
+    }
+
+    .extra {
+      margin-top:15px;
+      font-size:0.9em;
+    }
+    .extra a {
+      color: var(--teal);
+      text-decoration:none;
+      font-weight:bold;
+    }
+    .extra a:hover {
+      color: var(--bright);
+    }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <div class="logo-space">
+      <img src="LOGO-CAMAPP.png" alt="Logo Cam App">
+    </div>
+
+    <h2>Iniciar Sesión</h2>
+    <form>
+      <input type="email" placeholder="Correo electrónico" required>
+      
+      <input type="password" 
+              placeholder="Contraseña" 
+              required
+              pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[\\W_]).{8,12}$"
+              title="Debe tener entre 8 y 12 caracteres, incluir mayúsculas, minúsculas, números y un caracter especial.">
+      
+      <div class="info">La contraseña debe tener entre 8 y 12 caracteres, incluir mayúsculas, minúsculas, números y un caracter especial.</div>
+      
+      <button type="submit">Entrar</button>
+    </form>
+    <div class="extra">
+      ¿No tienes cuenta? <a href="registro.html">Regístrate aquí</a>
+    </div>
+  </div>
+</body>
+</html>

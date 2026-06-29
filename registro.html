@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Registro - Cam App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --soft-bg: #E5F9F8;   /* fondo suave */
+      --dark: #1F2B2D;      /* texto principal */
+      --teal: #23717B;      /* acentos */
+      --cyan: #0D8A9E;      /* botones primarios */
+      --bright: #12B2C1;    /* hover/acento */
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: var(--soft-bg);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .registro-box {
+      background: #fff;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+      width: 360px;
+      box-sizing: border-box; /* Asegura que el padding no estire la caja */
+    }
+
+    .registro-box h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: var(--cyan);
+    }
+
+    /* Se añade select para que comparta los mismos estilos que los inputs */
+    .registro-box input, .registro-box select {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+      box-sizing: border-box; /* Evita que los campos se desborden de la caja */
+    }
+
+    /* Estilo sutil para el texto por defecto del select */
+    .registro-box select {
+      color: #555;
+      background-color: #fff;
+    }
+
+    .registro-box button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      background: var(--cyan);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .registro-box button:hover {
+      background: var(--bright);
+    }
+
+    .extra {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 0.9em;
+    }
+    .extra a {
+      color: var(--teal);
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .extra a:hover {
+      color: var(--bright);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="registro-box">
+    <h2>Registrarse</h2>
+    <form>
+      <input type="text" id="nombre" name="nombre" placeholder="Nombre completo" required>
+      <input type="email" id="email" name="correo" placeholder="Correo electrónico" required>
+      <input type="tel" id="movil" name="telefono" placeholder="Número de teléfono" required>
+      <input type="date" id="fecha" name="fecha" required>
+      
+      <select id="genero" name="genero" required>
+        <option value="" disabled selected>Selecciona tu género</option>
+        <option value="femenino">Femenino</option>
+        <option value="masculino">Masculino</option>
+        <option value="no-binario">No binario</option>
+        <option value="otro">Otro / Prefiero no decirlo</option>
+      </select>
+
+      <input type="text" id="usuario" name="usuario" placeholder="Nombre de usuario" required>
+      <input type="password" id="pwd" name="pswd" placeholder="Contraseña"
+             required
+             pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,12}$"
+             title="Debe tener entre 8 y 12 caracteres, incluir mayúsculas, minúsculas, números y un caracter especial.">
+
+      <button type="submit">Guardar</button>
+    </form>
+    <div class="extra">
+      ¿Ya tienes cuenta? <a href="login.html">Inicia sesión aquí</a>
+    </div>
+  </div>
+
+</body>
+</html>
